@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BigData MVP</title>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 1100px; }
+    section { margin-bottom: 2rem; }
+    label { display: block; margin: 0.5rem 0 0.25rem; }
+    input, button, select { padding: 0.4rem 0.6rem; }
+    pre { background: #f4f4f4; padding: 1rem; overflow: auto; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: end; }
+    .muted { color: #666; font-size: 0.9rem; }
+    #chart-hist, #chart-feature-hist, #chart-fi { min-height: 420px; margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Загрузка данных и обучение (pandas + scikit-learn)</h1>
+  <p class="muted">Загрузите CSV с заголовком, числовыми признаками и колонкой таргета (по умолчанию <code>label</code>). Обработка in-memory.</p>
+
+  <section>
+    <h2>1. Загрузка датасета</h2>
+    <form id="upload-form">
+      <label>Файл</label>
+      <input type="file" id="file" name="file" required />
+      <button type="submit">Загрузить</button>
+    </form>
+    <p id="upload-status" class="muted"></p>
+  </section>
+
+  <section>
+    <h2>2. Обучение</h2>
+    <div class="row">
+      <div>
+        <label for="dataset-id">ID датасета</label>
+        <input type="text" id="dataset-id" placeholder="uuid" />
+      </div>
+      <div>
+        <label for="target-column">Колонка таргета</label>
+        <input type="text" id="target-column" value="label" />
+      </div>
+      <button type="button" id="train-btn">Запустить обучение</button>
+    </div>
+    <p id="train-status" class="muted"></p>
+  </section>
+
+  <section>
+    <h2>3. Статус и метрики</h2>
+    <div class="row">
+      <div>
+        <label for="job-id">ID задачи</label>
+        <input type="text" id="job-id" placeholder="uuid" />
+      </div>
+      <button type="button" id="refresh-job-btn">Обновить</button>
+    </div>
+    <pre id="job-json"></pre>
+  </section>
+
+  <section>
+    <h2>4. Визуализация</h2>
+    <div id="chart-hist"></div>
+    <div id="chart-feature-hist"></div>
+    <div id="chart-fi"></div>
+  </section>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
