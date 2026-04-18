@@ -3,6 +3,7 @@ from pathlib import Path
 from fastapi import FastAPI, Response
 from fastapi.staticfiles import StaticFiles
 from prometheus_client import make_asgi_app
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.container import Container
 from app.handlers.datasets import datasets_router
@@ -21,7 +22,7 @@ def build_app() -> FastAPI:
     static_dir.mkdir(parents=True, exist_ok=True)
     application.mount(path="/static", app=StaticFiles(directory=str(static_dir)), name="static")
 
-    application.mount(path="/metrics", app=make_asgi_app())
+    Instrumentator().instrument(application).expose(application)
 
     @application.get(path="/health", tags=["Health"])
     async def health_check() -> Response:

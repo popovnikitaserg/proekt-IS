@@ -24,6 +24,7 @@ dependencies = [
     "python-multipart",
     "jinja2",
     "alembic>=1.18.4",
+    "prometheus-fastapi-instrumentator",
 ]
 
 [dependency-groups]

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      initContainers:
+      - name: migrate
+        image: my-app:latest
+        command: ["uv", "run", "alembic", "upgrade", "head"]
+        imagePullPolicy: Never
+        env:
+          - name: DB_HOST
+            value: "postgres"
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: "bigdata"
+          - name: DB_USER
+            value: "bigdata"
+          - name: DB_PASSWORD
+            value: "bigdata"
+
+      containers:
+        - name: my-app
+          image: my-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          env:
+          - name: DB_HOST
+            value: "postgres"
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: "bigdata"
+          - name: DB_USER
+            value: "bigdata"
+          - name: DB_PASSWORD
+            value: "bigdata"

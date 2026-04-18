@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     log_mode: LogMode = LogMode.PRETTY
     sentry_dsn: str | None = None
 
-    db_host: str = "localhost"
+    db_host: str = "postgres"
     db_port: int = 5432
     db_name: str = "bigdata"
     db_user: str = "bigdata"
